@@ -65,11 +65,14 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req, res, next) => {
+  if (!['/login', '/'].includes(req.originalUrl)) {
+    req.session.returnTo = req.originalUrl;
+  }
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
-
   next();
-})
+});
 
 app.get('/fakeUser', async (req, res) => {
   const user = new User({ email: 'squirp@gmail.com', username: "squishy" })
