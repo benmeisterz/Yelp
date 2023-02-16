@@ -3,7 +3,7 @@
 
     <div class="row">
         <div class="col-sm-12 col-md-6">
-            <div id='map' style='width: 400px; height: 300px;'></div>
+
             <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <% campground.images.forEach((img, i)=> { %>
@@ -15,13 +15,13 @@
                 </div>
                 <% if(campground.images.length> 1) {%>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                     <% } %>
             </div>
             <div class="card mb-3">
@@ -55,10 +55,14 @@
                         <div class="card-footer text-muted">
                             2 days ago
                         </div>
+
             </div>
 
         </div>
+
         <div class="col-sm-12 col-md-6">
+            <div class='mb-3' id='map' style='width: 636px; height: 300px;'>
+            </div>
             <% if(currentUser){ %>
                 <h2>Leave a Review</h2>
                 <form action="/campgrounds/<%=campground._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
@@ -113,7 +117,7 @@
                         <% } %>
         </div>
     </div>
-    </div>
+
 
 
     <script>
@@ -124,7 +128,7 @@
             container: 'map', // container ID
             style: 'mapbox://styles/mapbox/streets-v12', // style URL
             center: campground.geometry.coordinates,
-            zoom: 11, // starting zoom
+            zoom: 13, // starting zoom
         });
 
         new mapboxgl.Marker()
