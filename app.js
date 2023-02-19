@@ -124,6 +124,7 @@ const sessionConfig = {
     store,
     secret: 'thisshouldbeabettersecret!',
     resave: false,
+    name: 'session',
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
