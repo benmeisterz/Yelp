@@ -1,9 +1,11 @@
-// if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+
+}
+
 // require('dotenv').config();
 
-// }
 
-require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
@@ -28,9 +30,15 @@ const reviewRoutes = require('./routes/reviews');
 
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const MongoStore = require('connect-mongo');
+const MongoDBStore = require("connect-mongo")(session);
 
+
+const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
+// 'mongodb://127.0.0.1:27017/yelp-camp'
+// process.env.DB_URL
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp', {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     // useCreateIndex: true,
     useUnifiedTopology: true
@@ -102,7 +110,18 @@ app.use(
     })
 );
 
+const store = new MongoDBStore({
+    url: dbUrl,
+    secret: 'thisshouldbeabettersecret!',
+    touchAfter: 24 * 60 * 60
+})
+
+store.on("error", function(e) {
+    console.log("SESSION STORE ERROR", e);
+})
+
 const sessionConfig = {
+    store,
     secret: 'thisshouldbeabettersecret!',
     resave: false,
     saveUninitialized: true,
