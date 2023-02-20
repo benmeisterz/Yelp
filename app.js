@@ -31,7 +31,14 @@ const reviewRoutes = require('./routes/reviews');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const MongoStore = require('connect-mongo');
-const MongoDBStore = require("connect-mongo")(session);
+// const MongoDBStore = require("connect-mongo")(session);
+const MongoDBStore = require("connect-mongo");
+
+// const store = MongoDBStore.create({
+//     mongoUrl: dbUrl,
+//     secret: secret,
+//     touchAfter: 24 * 60 * 60,
+// });
 
 
 const dbUrl = process.env.DB_URL;
@@ -111,11 +118,17 @@ app.use(
     })
 );
 
-const store = new MongoDBStore({
-    url: dbUrl,
-    secret: 'thisshouldbeabettersecret!',
-    touchAfter: 24 * 60 * 60
-})
+// const store = MongoDBStore.create({
+//   mongoUrl: dbUrl,
+//   secret: secret,
+//   touchAfter: 24 * 60 * 60,
+// });
+
+const store = MongoDBStore.create({
+    mongoUrl: dbUrl,
+    secret: secret,
+    touchAfter: 24 * 60 * 60,
+});
 
 store.on("error", function(e) {
     console.log("SESSION STORE ERROR", e);
