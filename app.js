@@ -73,6 +73,33 @@ app.use(express.static('public'));
 
 app.use(mongoSanitize());
 
+const store = MongoDBStore.create({
+    mongoUrl: dbUrl,
+    secret: 'thisshouldbeabettersecret!',
+    touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", function(e) {
+    console.log("SESSION STORE ERROR", e);
+})
+
+
+const sessionConfig = {
+    store,
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    name: 'session',
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        //secure: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig))
+app.use(flash());
+
 app.use(helmet());
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
@@ -126,32 +153,7 @@ app.use(
 //   touchAfter: 24 * 60 * 60,
 // });
 
-const store = MongoDBStore.create({
-    mongoUrl: dbUrl,
-    secret: 'thisshouldbeabettersecret!',
-    touchAfter: 24 * 60 * 60,
-});
 
-store.on("error", function(e) {
-    console.log("SESSION STORE ERROR", e);
-})
-
-
-const sessionConfig = {
-    store,
-    secret: 'thisshouldbeabettersecret!',
-    resave: false,
-    name: 'session',
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        //secure: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    }
-}
-app.use(session(sessionConfig))
-app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -171,11 +173,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/fakeUser', async(req, res) => {
-    const user = new User({ email: 'squirp@gmail.com', username: "squishy" })
-    const newUser = await User.register(user, 'squish');
-    res.send(newUser);
-})
+// app.get('/fakeUser', async(req, res) => {
+//     const user = new User({ email: 'squirp@gmail.com', username: "squishy" })
+//     const newUser = await User.register(user, 'squish');
+//     res.send(newUser);
+// })
 app.use('/', userRoutes)
 app.use('/campgrounds', campgroundRoutes)
 app.use('/campgrounds/:id/reviews', reviewRoutes)
