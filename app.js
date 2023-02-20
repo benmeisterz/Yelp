@@ -34,14 +34,15 @@ const MongoStore = require('connect-mongo');
 const MongoDBStore = require("connect-mongo")(session);
 
 
-const dbUrl = 'mongodb://127.0.0.1:27017/yelp-camp';
+const dbUrl = process.env.DB_URL;
 // 'mongodb://127.0.0.1:27017/yelp-camp'
 // process.env.DB_URL
 mongoose.set('strictQuery', false);
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     // useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    // useFindAndModify: false
 });
 
 const db = mongoose.connection;
