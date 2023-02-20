@@ -36,7 +36,7 @@ const MongoDBStore = require("connect-mongo");
 
 // const store = MongoDBStore.create({
 //     mongoUrl: dbUrl,
-//     secret: secret,
+//     secret: 'thisshouldbeabettersecret!',
 //     touchAfter: 24 * 60 * 60,
 // });
 
