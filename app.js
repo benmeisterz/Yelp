@@ -47,9 +47,9 @@ const dbUrl = process.env.DB_URL;
 mongoose.set('strictQuery', false);
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
-    // useCreateIndex: true,
+    useCreateIndex: true,
     useUnifiedTopology: true,
-    // useFindAndModify: false
+    useFindAndModify: false
 });
 
 const db = mongoose.connection;
@@ -57,6 +57,8 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
     console.log("Database connected");
 });
+
+
 
 const app = express();
 
@@ -133,6 +135,7 @@ const store = MongoDBStore.create({
 store.on("error", function(e) {
     console.log("SESSION STORE ERROR", e);
 })
+
 
 const sessionConfig = {
     store,
