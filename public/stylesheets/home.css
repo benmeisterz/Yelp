@@ -38,10 +38,13 @@ body {
 @media screen and (max-width: 768px) {
     #navi {
         display: block;
-        font-size: 1.5rem;
-        margin-top: 8rem;
+        font-size: 1.2rem;
+        margin-top: 5rem;
     }
     .nav-link {
         border-bottom: none;
+    }
+    .lead {
+        font-size: 1rem;
     }
 }
