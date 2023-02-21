@@ -34,3 +34,14 @@ body {
     color: #333;
     text-shadow: none;
 }
+
+@media screen and (max-width: 768px) {
+    #navi {
+        display: block;
+        font-size: 1.5rem;
+        margin-top: 8rem;
+    }
+    .nav-link {
+        border-bottom: none;
+    }
+}
