@@ -31,7 +31,6 @@ const reviewRoutes = require('./routes/reviews');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const MongoStore = require('connect-mongo');
-// const MongoDBStore = require("connect-mongo")(session);
 const MongoDBStore = require("connect-mongo");
 
 // const store = MongoDBStore.create({
